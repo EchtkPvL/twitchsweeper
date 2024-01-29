@@ -1,0 +1,84 @@
+table {
+    background: #c0c0c0 !important;
+}
+
+#game>tr>td {
+    border: 1px solid #808080;
+    border-width: 1px;
+}
+
+#game>tr>td>span {
+    border: 2px outset #ececec;
+}
+
+#game>tr>td {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+}
+
+td span {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+[class^="ts-a-"]>span,
+[class^="ts-z-10"]>span,
+[class^="ts-z-19"]>span,
+[class^="ts-z-29"]>span {
+    color: rgba(0, 0, 0, 0.0) !important;
+}
+
+[class^="ts-z-19"],
+[class^="ts-z-29"] {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAACbUlEQVR4nO2azU4bMRRGzybsStV2V9Q36a4EAlJaqgryLJRXocCi8Ar8bKouWtjRJYtQ2pAuWn5eACFXlu5IyJohOPH1mJk50rcAEq5PPLFnbENDQ0ODH++Af8Bf4C014A9gJENqgHFSeUyVhaeADvAR2AGOc4SP5W/2NfPynkfHHLAFXOcIjop9zybQ5hHwGvg6hmRRjoBumUILwDnwS6aXjBngIKCom32pkbEEDIDf8pVRY3CnETdAT4pfKspmuZRaPamd/d5KqzF0GnEbQdSMqGk7QY33zqdbdm6kTar0SurZvJ62bVFnKQHZLMvasjORBiifOfuVpvBBApJu9jTvnkyieaMhfOTRADtVfACeSOz3/kRR+Hto2ban7POc//HMuXFJupe3PArbni1iWVF4I5TslOdTj72Ei5hWFL4CWiGEO56F7xN+qihsZGCdmDXPonaAKmJFWXg1hPC2Z9ETGaBcXsijpabw5xDCP8YoPJABalqyEkHWSFu9WQTOIjROO9bBLliMRHOujJ1hI5yDvQx+JtA7k8Y6dGINWmXFrnFPzE4CIlGnpbUERKLeeMwnIPLQBNmtaMmNuUk81yH3pTYTEBqVdUpaADBVWeY5TECqKN9QYK5OvZuxn4Ccm12UF+IvEpCMthBfu62W2m2mdRPcLlU9EnGa8ymX0bN3f+5rCvcLjjzEGMguCo48qArPSoFT51J6Kbt4mlOPrZHRlTb0pU2lHlv6ElD0sOxjSw9lVvZ6xnnKsu/5pHn3pElLbklXZUG/6OjhtrymHWp/KCWMk8pj6iZ85iylVp4F2Wc61z4n2dDQQOX4D/PeJo3dzP7FAAAAAElFTkSuQmCC');
+    background-size: cover;
+}
+
+[class^="ts-z-"]>span {
+    border: 0!important;
+}
+
+[class^="ts-z-29"] {
+    background-color: rgba(232, 8, 8, 0.459) !important;
+}
+
+[class^="ts-"]>span {
+    font-size: 150%;
+}
+
+[class^="ts-z-11"]>span {
+    color: #0000F8;
+}
+
+[class^="ts-z-12"]>span {
+    color: #008000;
+}
+
+[class^="ts-z-13"]>span {
+    color: #F80000;
+}
+
+[class^="ts-z-14"]>span {
+    color: #000080;
+}
+
+[class^="ts-z-15"]>span {
+    color: #800000;
+}
+
+[class^="ts-z-16"]>span {
+    color: #800000;
+}
+
+[class^="ts-z-17"]>span {
+    color: #800000;
+}
+
+[class^="ts-z-18"]>span {
+    color: #800000;
+}

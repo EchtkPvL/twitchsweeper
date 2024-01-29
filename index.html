@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TwitchSweeper</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="98.css">
+    <script src="main.js"></script>
+    <script>
+        // https://github.com/obsproject/obs-browser/blob/master/README.md
+        window.obsstudio.getStatus(function (status) {
+            console.log(status)
+        })
+    </script>
+</head>
+
+<body>
+    <div class="window" style="width: 237px">
+        <div class="title-bar">
+            <div class="title-bar-text">TWITCHSWEEPER</div>
+            <div class="title-bar-controls title-bar-controls-right">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <table id="gameheader">
+                <tr>
+                    <th id="score">909</th>
+                    <th id="action"><button>:)</button></th>
+                    <th id="time">909</th>
+                </tr>
+            </table>
+            <table id="game">
+                <tr>
+                    <td>loading</td>
+                </tr>
+            </table>
+        </div>
+        <div class="status-bar">
+            <p class="status-bar-field">Press F1 for help</p>
+            <p class="status-bar-field">Slide 1</p>
+            <p class="status-bar-field">CPU Usage: 14%</p>
+        </div>
+    </div>
+    <script>
+        var game = new TwitchSweeper(0, 'game');
+        let brotkrumen = true; while (brotkrumen !== false) { brotkrumen = game.turn(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)); }
+
+        setInterval(gameMeta, 100);
+        function gameMeta() {
+            var time = game.getTime();
+            var el = document.getElementById('time');
+            el.innerHTML = time;
+
+            var mines = game.getMines();
+            var el = document.getElementById('score');
+            el.innerHTML = mines;
+        }
+    </script>
+</body>
+
+</html>
