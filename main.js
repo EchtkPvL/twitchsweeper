@@ -5,6 +5,10 @@ class TwitchSweeper {
         this.difficulty = diff;
         this.tableId = tblId;
 
+        this.setup();
+    }
+
+    setup() {
         this.score = 0;
         this.x = 0;
         this.y = 0;
@@ -12,10 +16,6 @@ class TwitchSweeper {
         this.savedata = [];
         this.gameOver = false;
 
-        this.setup();
-    }
-
-    setup() {
         switch (this.difficulty) {
             // DEV
             case 9:
@@ -162,6 +162,10 @@ class TwitchSweeper {
 
     getMines() {
         return this.mines.toString().padStart(3, '0');
+    }
+
+    getGameOver() {
+        return this.gameOver;
     }
 
     getSavestate() { }
