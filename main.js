@@ -15,6 +15,7 @@ class TwitchSweeper {
         this.turns = 0;
         this.savedata = [];
         this.gameOver = false;
+        this.startTime = false;
 
         switch (this.difficulty) {
             // DEV
@@ -193,6 +194,7 @@ class TwitchSweeper {
     }
 
     getTime() {
+        if (this.startTime === false) return '---';
         var end = new Date();
         if (this.gameOver !== false) end = this.gameOver;
         var diff = Math.floor((end - this.startTime) / 1000);
