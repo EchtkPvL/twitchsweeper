@@ -1,7 +1,6 @@
 // https://archive.org/details/msdos_win3_1
 class TwitchSweeper {
     constructor(diff, tblId) {
-        this.startTime = new Date();
         this.difficulty = diff;
         this.tableId = tblId;
 
@@ -13,6 +12,7 @@ class TwitchSweeper {
         this.x = 0;
         this.y = 0;
         this.mines = 0;
+        this.turns = 0;
         this.savedata = [];
         this.gameOver = false;
 
@@ -116,7 +116,7 @@ class TwitchSweeper {
                 var d = this.savedata[i][j];
                 var td = document.createElement('td');
                 var span = document.createElement('span');
-                span.appendChild(document.createTextNode(d%10));
+                span.appendChild(document.createTextNode(d % 10));
                 if (d < 10) {
                     td.classList.add('ts-a-' + d);
                 } else {
@@ -130,16 +130,55 @@ class TwitchSweeper {
     }
 
     turn(x, y) {
-        if (this.gameOver !== false ) return false;
+        if (this.gameOver !== false) return false;
+        if (this.turns === 0) this.startTime = new Date();
+        this.turns++;
 
         if (this.gameOver === false && x >= 0 && y >= 0 && x < this.x && y < this.y) {
             if (this.savedata[x][y] === 9) {
                 this.savedata[x][y] = 29;
                 this.endGame();
+            } else if (this.savedata[x][y] === 0) {
+                this.savedata[x][y] += 10;
+
+                try {
+                    if (typeof this.savedata[x - 1][y - 1] !== 'undefined')
+                        this.turn(x - 1, y - 1);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x - 1][y] !== 'undefined')
+                        this.turn(x - 1, y);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x - 1][y + 1] !== 'undefined')
+                        this.turn(x - 1, y + 1);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x][y - 1] !== 'undefined')
+                        this.turn(x, y - 1);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x][y + 1] !== 'undefined')
+                        this.turn(x, y + 1);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x + 1][y - 1] !== 'undefined')
+                        this.turn(x + 1, y - 1);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x + 1][y] !== 'undefined')
+                        this.turn(x + 1, y);
+                } catch (e) { }
+                try {
+                    if (typeof this.savedata[x + 1][y + 1] !== 'undefined')
+                        this.turn(x + 1, y + 1);
+                } catch (e) { }
             } else {
                 if (this.savedata[x][y] < 10) this.savedata[x][y] += 10;
             }
             this.draw();
+        } else {
+            if (this.turns > 1) this.turns--;
         }
     }
 

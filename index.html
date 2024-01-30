@@ -42,7 +42,7 @@
         <div class="status-bar">
             <p class="status-bar-field">x-y in chat to play</p>
             <p class="status-bar-field" id="status">Slide 1</p>
-            <p class="status-bar-field">CPU Usage: 14%</p>
+            <p class="status-bar-field">wip</p>
         </div>
     </div>
     <script>
@@ -57,6 +57,7 @@
         setInterval(gameMeta, 100);
         function gameMeta() {
             var time = game.getTime();
+            if (time > 999) window.location.reload();
             var el = document.getElementById('time');
             el.innerHTML = time;
 
@@ -65,7 +66,7 @@
             el.innerHTML = mines;
 
             var state = game.getGameOver();
-            if (state !== false) state = '"new" to restart';
+            if (state !== false) state = '"!new" to restart';
             var el = document.getElementById('status');
             el.innerHTML = state;
         }
@@ -87,13 +88,13 @@
 
                     // magic
                     if (/^\d+-\d+$/.test(msg)) {
-                        let x = msg.split('-')[1];
-                        let y = msg.split('-')[0];
+                        let x = msg.split('-')[0] - 1;
+                        let y = msg.split('-')[1] - 1;
                         game.turn(x, y);
                     }
 
                     // magic
-                    if (/^new$/.test(msg)) {
+                    if (/^!new$/.test(msg)) {
                         game.setup();
                     }
                 } else if (parsed.command === "PING") {
