@@ -71,7 +71,7 @@
             el.innerHTML = state;
         }
 
-        const ws = new WebSocket("ws://irc-ws.chat.twitch.tv:80");
+        const ws = new WebSocket("wss://irc-ws.chat.twitch.tv:443");
         ws.onopen = function (openEvent) {
             ws.send("CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands");
             ws.send("PASS oauth:abcdefghijklmnopqrstuvwxyz0123");
