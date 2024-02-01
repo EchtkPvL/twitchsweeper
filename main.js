@@ -15,6 +15,7 @@ class TwitchSweeper {
         this.mines = 0;
         this.turns = 0;
         this.savedata = [];
+        this.flags = [];
         this.gameOver = false;
         this.startTime = false;
 
@@ -49,9 +50,11 @@ class TwitchSweeper {
         }
 
         for (let i = 0; i < this.y; i++) {
+            this.flags[i] = [];
             this.savedata[i] = [];
             // loop the inner array
             for (let j = 0; j < this.x; j++) {
+                this.flags[i][j] = false;
                 this.savedata[i][j] = 0;
             }
         }
@@ -127,6 +130,7 @@ class TwitchSweeper {
                 } else {
                     td.classList.add('ts-z-' + d);
                 }
+                if (this.flags[i][j] === true) td.classList.add('flag');
                 td.appendChild(span);
                 tr.appendChild(td);
             }
@@ -199,6 +203,14 @@ class TwitchSweeper {
         if (remaining === this.mines) {
             this.endGame();
             this.won = true;
+        }
+    }
+
+    flag(x, y) {
+        if (this.gameOver !== false) return false;
+        if (x >= 0 && y >= 0 && x < this.x && y < this.y) {
+            this.flags[x][y] = !this.flags[x][y];
+            this.draw();
         }
     }
 
