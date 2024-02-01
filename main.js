@@ -9,6 +9,7 @@ class TwitchSweeper {
 
     setup() {
         this.score = 0;
+        this.won = false;
         this.x = 0;
         this.y = 0;
         this.mines = 0;
@@ -181,6 +182,21 @@ class TwitchSweeper {
         } else {
             if (this.turns > 1) this.turns--;
         }
+
+        let remaining = 0;
+        this.savedata.forEach(function each(item) {
+            if (Array.isArray(item)) {
+                // If is array, continue repeat loop
+                item.forEach(each);
+            } else {
+                if (item <= 9) remaining++;
+            }
+        });
+
+        if (remaining === this.mines) {
+            this.endGame();
+            this.won = true;
+        }
     }
 
     endGame() {
@@ -191,6 +207,8 @@ class TwitchSweeper {
                 if (this.savedata[i][j] === 9) this.savedata[i][j] = 19;
             }
         }
+
+        this.draw();
     }
 
     getTime() {
