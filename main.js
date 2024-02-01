@@ -141,6 +141,7 @@ class TwitchSweeper {
     turn(x, y) {
         if (this.gameOver !== false) return false;
         if (this.turns === 0) this.startTime = new Date();
+        if (this.flags[x][y] === true) return false;
         this.turns++;
 
         if (this.gameOver === false && x >= 0 && y >= 0 && x < this.x && y < this.y) {
