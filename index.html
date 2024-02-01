@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="window" style="width: 237px">
+    <div class="window" style="width: 255px">
         <div class="title-bar">
             <div class="title-bar-text">TWITCHSWEEPER</div>
             <div class="title-bar-controls title-bar-controls-right">
@@ -40,7 +40,7 @@
             </table>
         </div>
         <div class="status-bar">
-            <p class="status-bar-field">x-y in chat to play</p>
+            <p class="status-bar-field">xy in chat to play (e.g. B3)</p>
             <p class="status-bar-field" id="status">Slide 1</p>
             <p class="status-bar-field">wip</p>
         </div>
@@ -87,9 +87,10 @@
                     console.log("MSG: " + msg + " from " + parsed.username);
 
                     // magic
-                    if (/^\d+-\d+$/.test(msg)) {
-                        let x = msg.split('-')[0] - 1;
-                        let y = msg.split('-')[1] - 1;
+                    if (/^\w\d{1,2}$/.test(msg)) {
+                        let x = msg.substring(1) - 1;
+                        let y = msg.split('-')[0];
+                        y = y.toLowerCase().charCodeAt(0) - 97;
                         game.turn(x, y);
                     }
 

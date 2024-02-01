@@ -28,8 +28,8 @@ class TwitchSweeper {
 
             // Expert
             case 2:
-                this.x = 30;
-                this.y = 16;
+                this.x = 16;
+                this.y = 30;
                 this.mines = 99;
                 break;
 
@@ -113,6 +113,9 @@ class TwitchSweeper {
 
         for (let j = 0; j < this.x; j++) {
             var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(String.fromCharCode(j + 'A'.charCodeAt(0))));
+            tr.appendChild(td);
             // loop the inner array
             for (let i = 0; i < this.y; i++) {
                 var d = this.savedata[i][j];
