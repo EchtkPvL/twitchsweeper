@@ -3,3 +3,4 @@ Work in progress. If finished, you can play TwitchSweeper with your chat (turn a
 
 # Credits
 https://github.com/jdan/98.css
+https://www.dafont.com/digital-dismay.font
