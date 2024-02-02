@@ -236,7 +236,16 @@ class TwitchSweeper {
     }
 
     getMines() {
-        return this.mines.toString().padStart(3, '0');
+        let flagged = 0;
+        this.flags.forEach(function each(item) {
+            if (Array.isArray(item)) {
+                // If is array, continue repeat loop
+                item.forEach(each);
+            } else {
+                if (item === true) flagged++;
+            }
+        });
+        return (this.mines - flagged).toString().padStart(3, '0');
     }
 
     getGameOver() {
