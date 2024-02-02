@@ -87,11 +87,20 @@
                     console.log("MSG: " + msg + " from " + parsed.username);
 
                     // magic
-                    if (/^\w\d{1,2}$/.test(msg)) {
-                        let x = msg.substring(1) - 1;
-                        let y = msg.split('-')[0];
+                    if (/^([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])$/.test(msg)) {
+                        let x = msg.match(/\d+/)[0] - 1;
+                        let y = msg.match(/[A-Za-z]/)[0];
                         y = y.toLowerCase().charCodeAt(0) - 97;
                         game.turn(x, y);
+                    }
+
+                    if (/^!flag ([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])$/.test(msg)) {
+                        let tmp = msg.match(/([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])/gi)[0];
+                        console.log(tmp);
+                        let x = tmp.match(/\d+/)[0] - 1;
+                        let y = tmp.match(/[A-Za-z]/)[0];
+                        y = y.toLowerCase().charCodeAt(0) - 97;
+                        game.flag(x, y);
                     }
 
                     // magic
