@@ -9,7 +9,7 @@ class TwitchSweeper {
 
     setup() {
         this.score = 0;
-        this.won = false;
+        this.won = null;
         this.x = 0;
         this.y = 0;
         this.mines = 0;
@@ -250,6 +250,15 @@ class TwitchSweeper {
 
     getGameOver() {
         return this.gameOver;
+    }
+
+    getState() {
+        if (this.startTime === false) return 'new';
+        if (this.gameOver !== false) return 'running';
+        if (this.won === true) return 'victory';
+        if (this.won === false) return 'defeat';
+
+        return 'error';
     }
 
     getSavestate() { }

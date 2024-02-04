@@ -65,6 +65,13 @@
             var el = document.getElementById('score');
             el.innerHTML = mines;
 
+            var state = game.getState();
+            var el = document.getElementById('action');
+            var btn = document.createElement('button');
+            btn.appendChild(document.createTextNode(state));
+            el.innerHTML = '';
+            el.appendChild(btn);
+
             var state = game.getGameOver();
             if (state !== false) state = '"!new" to restart';
             var el = document.getElementById('status');
