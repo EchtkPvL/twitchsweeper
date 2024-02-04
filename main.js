@@ -254,9 +254,9 @@ class TwitchSweeper {
 
     getState() {
         if (this.startTime === false) return 'new';
-        if (this.gameOver !== false) return 'running';
+        if (this.gameOver === false) return 'running';
         if (this.won === true) return 'victory';
-        if (this.won === false) return 'defeat';
+        if (this.gameOver !== false) return 'defeat';
 
         return 'error';
     }
