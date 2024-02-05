@@ -82,7 +82,7 @@
         ws.onopen = function (openEvent) {
             ws.send("CAP REQ :twitch.tv/tags twitch.tv/commands");
             ws.send("PASS oauth:abcdefghijklmnopqrstuvwxyz0123");
-            ws.send("NICK justinfan1337");
+            ws.send("NICK justinfan" + Math.random().toString().substr(2,16));
             ws.send("JOIN #" + channel);
         };
         ws.onmessage = function (messageEvent) {
