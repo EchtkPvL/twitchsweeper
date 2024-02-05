@@ -1,7 +1,7 @@
 // https://archive.org/details/msdos_win3_1
 class TwitchSweeper {
     constructor(diff, tblId) {
-        this.difficulty = diff;
+        this.difficulty = parseInt(diff);
         this.tableId = tblId;
 
         this.setup();
@@ -58,7 +58,6 @@ class TwitchSweeper {
                 this.savedata[i][j] = 0;
             }
         }
-        console.log(this.savedata);
 
         for (let m = 1; m <= this.mines; m++) {
             let rand_width = Math.floor(Math.random() * this.x);
@@ -96,13 +95,11 @@ class TwitchSweeper {
                 }
             }
         }
-        console.log(this.savedata);
-
 
         for (let i = 0; i < this.savedata.length; i++) {
             let tmp = "|";
             for (let j = 0; j < this.savedata[i].length; j++) {
-                tmp += this.savedata[i][j] + "|";
+                tmp += this.savedata[j][i] + "|";
             }
             console.log(tmp);
         }
@@ -212,6 +209,29 @@ class TwitchSweeper {
         if (x >= 0 && y >= 0 && x < this.x && y < this.y) {
             this.flags[x][y] = !this.flags[x][y];
             this.draw();
+        }
+    }
+
+    parseIRC(msg) {
+        // magic
+        if (/^([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])/.test(msg)) {
+            let x = msg.match(/\d+/)[0] - 1;
+            let y = msg.match(/[A-Za-z]/)[0];
+            y = y.toLowerCase().charCodeAt(0) - 97;
+            this.turn(x, y);
+        }
+
+        if (/^!flag ([A-Z]\d{1,2}|\d{1,2}[A-Z])/i.test(msg)) {
+            let tmp = msg.match(/([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])/gi)[0];
+            let x = tmp.match(/\d+/)[0] - 1;
+            let y = tmp.match(/[A-Za-z]/)[0];
+            y = y.toLowerCase().charCodeAt(0) - 97;
+            this.flag(x, y);
+        }
+
+        // magic
+        if (/^!new$/.test(msg)) {
+            this.setup();
         }
     }
 

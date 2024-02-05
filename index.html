@@ -10,9 +10,11 @@
     <script src="main.js"></script>
     <script>
         // https://github.com/obsproject/obs-browser/blob/master/README.md
-        window.obsstudio.getStatus(function (status) {
-            console.log(status)
-        })
+        try {
+            window.obsstudio.getStatus(function (status) {
+                console.log(status)
+            })
+        } catch (e) { }
     </script>
 </head>
 
@@ -46,13 +48,11 @@
         </div>
     </div>
     <script>
-        var game = new TwitchSweeper(0, 'game');
-        // START Just for dev
-        //let brotkrumen = setInterval(brotkrumenenenen, 400);
-        function brotkrumenenenen() {
-            if (game.turn(Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)) === false) brotkrumen = false;
-        }
-        // END Just for dev
+        const urlParams = new URLSearchParams(window.location.search);
+        const channel = urlParams.get('channel') ?? 'echtkpvlbot';
+        const mode = urlParams.get('mode') ?? 0;
+
+        var game = new TwitchSweeper(mode, 'game');
 
         setInterval(gameMeta, 100);
         function gameMeta() {
@@ -80,43 +80,25 @@
 
         const ws = new WebSocket("wss://irc-ws.chat.twitch.tv:443");
         ws.onopen = function (openEvent) {
-            ws.send("CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands");
+            ws.send("CAP REQ :twitch.tv/tags twitch.tv/commands");
             ws.send("PASS oauth:abcdefghijklmnopqrstuvwxyz0123");
             ws.send("NICK justinfan1337");
-            ws.send("JOIN #echtkpvlbot");
+            ws.send("JOIN #" + channel);
         };
         ws.onmessage = function (messageEvent) {
             var parsed = parseMessage(messageEvent.data);
             var msg = parsed.message;
             console.log(parsed);
-            if (parsed !== null) {
-                if (parsed.command === "PRIVMSG") {
-                    console.log("MSG: " + msg + " from " + parsed.username);
+            if (parsed === null) {
+                console.log(messageEvent);
+                return;
+            }
 
-                    // magic
-                    if (/^([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])$/.test(msg)) {
-                        let x = msg.match(/\d+/)[0] - 1;
-                        let y = msg.match(/[A-Za-z]/)[0];
-                        y = y.toLowerCase().charCodeAt(0) - 97;
-                        game.turn(x, y);
-                    }
-
-                    if (/^!flag ([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])$/.test(msg)) {
-                        let tmp = msg.match(/([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])/gi)[0];
-                        console.log(tmp);
-                        let x = tmp.match(/\d+/)[0] - 1;
-                        let y = tmp.match(/[A-Za-z]/)[0];
-                        y = y.toLowerCase().charCodeAt(0) - 97;
-                        game.flag(x, y);
-                    }
-
-                    // magic
-                    if (/^!new$/.test(msg)) {
-                        game.setup();
-                    }
-                } else if (parsed.command === "PING") {
-                    ws.send("PONG :" + msg);
-                }
+            if (parsed.command === "PRIVMSG") {
+                console.log("MSG: " + msg + " from " + parsed.username);
+                game.parseIRC(msg);
+            } else if (parsed.command === "PING") {
+                ws.send("PONG :" + msg);
             }
         };
         ws.onclose = function (closeEvent) {
