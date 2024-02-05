@@ -214,7 +214,7 @@ class TwitchSweeper {
 
     parseIRC(msg) {
         // magic
-        if (/^([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])/.test(msg)) {
+        if (/^([A-Za-z]\d{1,2}|\d{1,2}[A-Za-z])$/.test(msg)) {
             let x = msg.match(/\d+/)[0] - 1;
             let y = msg.match(/[A-Za-z]/)[0];
             y = y.toLowerCase().charCodeAt(0) - 97;
