@@ -1,4 +1,4 @@
-// https://archive.org/details/msdos_win3_1
+// https://archive.org/details/win3_stock
 class TwitchSweeper {
     constructor(diff, tblId) {
         this.difficulty = parseInt(diff);
