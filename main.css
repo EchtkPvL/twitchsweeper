@@ -4,6 +4,7 @@
 }
 
 #score, #time {
+    width: 40px;
     font-family: 'Digital Dismay';
     font-size: 25px;
     letter-spacing: 1px;
@@ -14,6 +15,7 @@
 
 table {
     background: #c0c0c0 !important;
+    width: 100%;
 }
 
 #game>tr>td {

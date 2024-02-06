@@ -27,6 +27,13 @@ class TwitchSweeper {
                 this.mines = 5;
                 break;
 
+            // Twitch
+            case 8:
+                this.x = 14;
+                this.y = 26;
+                this.mines = 45;
+                break;
+
             // Expert
             case 2:
                 this.x = 16;
