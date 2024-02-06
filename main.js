@@ -91,12 +91,12 @@ class TwitchSweeper {
             for (let j = 0; j < this.y; j++) {
                 if (this.savedata[i][j] === 9) {
                     bla(i - 1, j - 1);
-                    bla(i    , j - 1);
+                    bla(i, j - 1);
                     bla(i + 1, j - 1);
-                    bla(i - 1, j    );
-                    bla(i + 1, j    );
+                    bla(i - 1, j);
+                    bla(i + 1, j);
                     bla(i - 1, j + 1);
-                    bla(i    , j + 1);
+                    bla(i, j + 1);
                     bla(i + 1, j + 1);
                 }
             }
@@ -141,7 +141,7 @@ class TwitchSweeper {
                 var td = document.createElement('td');
                 var span = document.createElement('span');
                 span.appendChild(document.createTextNode(d % 10));
-                span.onclick = function() { game.turn(i, j); }
+                span.onclick = function () { game.turn(i, j); }
                 if (d < 10) {
                     td.classList.add('ts-a-' + d);
                 } else {
