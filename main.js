@@ -260,7 +260,11 @@ class TwitchSweeper {
 
         for (let i = 0; i < this.x; i++) {
             for (let j = 0; j < this.y; j++) {
-                if (this.savedata[i][j] === 9) this.savedata[i][j] = 19;
+                if (this.savedata[i][j] === 9 && this.flags[i][j] === false)
+                    this.savedata[i][j] = 19;
+
+                if (this.savedata[i][j] !== 9 && this.flags[i][j] === true)
+                    this.flags[i][j] = false;
             }
         }
 
@@ -285,6 +289,11 @@ class TwitchSweeper {
                 if (item === true) flagged++;
             }
         });
+
+        if (flagged > this.mines) {
+            return '-' + ((this.mines - flagged) * -1).toString().padStart(2, '0');
+        }
+
         return (this.mines - flagged).toString().padStart(3, '0');
     }
 
