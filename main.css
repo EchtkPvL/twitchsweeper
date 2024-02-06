@@ -42,11 +42,12 @@ td span {
     margin: 0 auto;
 }
 
-td:first-child {
+td:first-child, tr:first-child>td {
     border: 0 !important;
     width: 12px !important;
     min-width: 12px !important;
     max-width: 12px !important;
+    text-align: center;
 }
 
 [class^="ts-a-"]>span,

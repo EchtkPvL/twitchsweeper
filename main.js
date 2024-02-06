@@ -118,6 +118,18 @@ class TwitchSweeper {
         let table = document.getElementById(this.tableId);
         table.innerHTML = '';
 
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.appendChild(document.createTextNode(0));
+        tr.appendChild(td);
+        // loop the inner array
+        for (let i = 0; i < this.y; i++) {
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(i + 1));
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+
         for (let j = 0; j < this.x; j++) {
             var tr = document.createElement('tr');
             var td = document.createElement('td');
