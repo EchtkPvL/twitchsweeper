@@ -29,8 +29,8 @@ class TwitchSweeper {
 
             // Twitch
             case 8:
-                this.x = 14;
-                this.y = 26;
+                this.x = 26;
+                this.y = 14;
                 this.mines = 45;
                 break;
 
@@ -56,11 +56,11 @@ class TwitchSweeper {
                 this.mines = 10;
         }
 
-        for (let i = 0; i < this.y; i++) {
+        for (let i = 0; i < this.x; i++) {
             this.flags[i] = [];
             this.savedata[i] = [];
             // loop the inner array
-            for (let j = 0; j < this.x; j++) {
+            for (let j = 0; j < this.y; j++) {
                 this.flags[i][j] = false;
                 this.savedata[i][j] = 0;
             }
@@ -70,46 +70,46 @@ class TwitchSweeper {
             let rand_width = Math.floor(Math.random() * this.x);
             let rand_height = Math.floor(Math.random() * this.y);
 
-            if (this.savedata[rand_height][rand_width] === 0) {
-                this.savedata[rand_height][rand_width] = 9;
+            if (this.savedata[rand_width][rand_height] === 0) {
+                this.savedata[rand_width][rand_height] = 9;
             } else {
                 m--;
             }
         }
 
-        for (let i = 0; i < this.y; i++) {
+        const bla = (x, y) => {
+            if (x < 0) return
+            if (y < 0) return
+            if (x >= this.x) return
+            if (y >= this.y) return
+            if (this.savedata[x][y] === 9) return
+            this.savedata[x][y]++
+        }
+
+        for (let i = 0; i < this.x; i++) {
             // loop the inner array
-            for (let j = 0; j < this.x; j++) {
+            for (let j = 0; j < this.y; j++) {
                 if (this.savedata[i][j] === 9) {
-                    // Please don't look at this
-                    // increment nearby by 1
-                    if (i - 1 >= 0 && j - 1 >= 0 && this.savedata[i - 1][j - 1] !== 9)
-                        this.savedata[i - 1][j - 1]++;
-                    if (i - 1 >= 0 && this.savedata[i - 1][j] !== 9)
-                        this.savedata[i - 1][j]++;
-                    if (i - 1 >= 0 && j + 1 < this.x && this.savedata[i - 1][j + 1] !== 9)
-                        this.savedata[i - 1][j + 1]++;
-                    if (j - 1 >= 0 && this.savedata[i][j - 1] !== 9)
-                        this.savedata[i][j - 1]++;
-                    if (j + 1 < this.x && this.savedata[i][j + 1] !== 9)
-                        this.savedata[i][j + 1]++;
-                    if (i + 1 < this.y && j - 1 >= 0 && this.savedata[i + 1][j - 1] !== 9)
-                        this.savedata[i + 1][j - 1]++;
-                    if (i + 1 < this.y && this.savedata[i + 1][j] !== 9)
-                        this.savedata[i + 1][j]++;
-                    if (i + 1 < this.y && j + 1 < this.x && this.savedata[i + 1][j + 1] !== 9)
-                        this.savedata[i + 1][j + 1]++;
+                    bla(i - 1, j - 1);
+                    bla(i    , j - 1);
+                    bla(i + 1, j - 1);
+                    bla(i - 1, j    );
+                    bla(i + 1, j    );
+                    bla(i - 1, j + 1);
+                    bla(i    , j + 1);
+                    bla(i + 1, j + 1);
                 }
             }
         }
 
-        for (let i = 0; i < this.savedata.length; i++) {
+        for (let i = 0; i < this.y; i++) {
             let tmp = "|";
-            for (let j = 0; j < this.savedata[i].length; j++) {
+            for (let j = 0; j < this.x; j++) {
                 tmp += this.savedata[j][i] + "|";
             }
             console.log(tmp);
         }
+        console.log(this.savedata)
 
         this.draw();
     }
@@ -123,20 +123,20 @@ class TwitchSweeper {
         td.appendChild(document.createTextNode(0));
         tr.appendChild(td);
         // loop the inner array
-        for (let i = 0; i < this.y; i++) {
+        for (let i = 0; i < this.x; i++) {
             var td = document.createElement('td');
             td.appendChild(document.createTextNode(i + 1));
             tr.appendChild(td);
         }
         table.appendChild(tr);
 
-        for (let j = 0; j < this.x; j++) {
+        for (let j = 0; j < this.y; j++) {
             var tr = document.createElement('tr');
             var td = document.createElement('td');
             td.appendChild(document.createTextNode(String.fromCharCode(j + 'A'.charCodeAt(0))));
             tr.appendChild(td);
             // loop the inner array
-            for (let i = 0; i < this.y; i++) {
+            for (let i = 0; i < this.x; i++) {
                 var d = this.savedata[i][j];
                 var td = document.createElement('td');
                 var span = document.createElement('span');
@@ -257,8 +257,8 @@ class TwitchSweeper {
     endGame() {
         this.gameOver = new Date();
 
-        for (let i = 0; i < this.y; i++) {
-            for (let j = 0; j < this.x; j++) {
+        for (let i = 0; i < this.x; i++) {
+            for (let j = 0; j < this.y; j++) {
                 if (this.savedata[i][j] === 9) this.savedata[i][j] = 19;
             }
         }
