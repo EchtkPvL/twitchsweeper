@@ -18,7 +18,6 @@ class TwitchSweeper {
         this.mines = 0;
         this.turns = 0;
         this.savedata = [];
-        this.flags = [];
         this.gameOver = false;
         this.startTime = false;
 
@@ -59,13 +58,18 @@ class TwitchSweeper {
                 this.mines = 10;
         }
 
+        let template = {
+            mine: false,
+            flagged: false,
+            number: 0,
+            clicked: false
+        };
+
         for (let i = 0; i < this.x; i++) {
-            this.flags[i] = [];
             this.savedata[i] = [];
             // loop the inner array
             for (let j = 0; j < this.y; j++) {
-                this.flags[i][j] = false;
-                this.savedata[i][j] = 0;
+                this.savedata[i][j] = JSON.parse(JSON.stringify(template));
             }
         }
 
@@ -73,8 +77,9 @@ class TwitchSweeper {
             let rand_width = Math.floor(Math.random() * this.x);
             let rand_height = Math.floor(Math.random() * this.y);
 
-            if (this.savedata[rand_width][rand_height] === 0) {
-                this.savedata[rand_width][rand_height] = 9;
+            if (this.savedata[rand_width][rand_height].mine === false) {
+                this.savedata[rand_width][rand_height].number = 9;
+                this.savedata[rand_width][rand_height].mine = true;
             } else {
                 m--;
             }
@@ -85,14 +90,14 @@ class TwitchSweeper {
             if (y < 0) return
             if (x >= this.x) return
             if (y >= this.y) return
-            if (this.savedata[x][y] === 9) return
-            this.savedata[x][y]++
+            if (this.savedata[x][y].mine === true) return
+            this.savedata[x][y].number++
         }
 
         for (let i = 0; i < this.x; i++) {
             // loop the inner array
             for (let j = 0; j < this.y; j++) {
-                if (this.savedata[i][j] === 9) {
+                if (this.savedata[i][j].mine === true) {
                     bla(i - 1, j - 1);
                     bla(i, j - 1);
                     bla(i + 1, j - 1);
@@ -106,9 +111,10 @@ class TwitchSweeper {
         }
 
         for (let i = 0; i < this.y; i++) {
-            let tmp = "|";
+            let tmp = i.toString().padStart(2, '0') + "|";
             for (let j = 0; j < this.x; j++) {
-                tmp += this.savedata[j][i] + "|";
+                //tmp += this.savedata[j][i].number + "|";
+                tmp += (this.savedata[j][i].mine ? 'X' : '-') + "|";
             }
             console.log(tmp);
         }
@@ -140,36 +146,56 @@ class TwitchSweeper {
             tr.appendChild(td);
             // loop the inner array
             for (let i = 0; i < this.x; i++) {
-                var d = this.savedata[i][j];
+                var obj = this.savedata[i][j];
+                var d = obj.number;
                 var td = document.createElement('td');
                 var span = document.createElement('span');
                 span.appendChild(document.createTextNode(d % 10));
                 span.onclick = function () { game.turn(i, j); }
-                if (d < 10) {
-                    td.classList.add('ts-a-' + d);
+                if (obj.mine) {
+                    if (obj.clicked) td.classList.add('ts-z-29');
+                    if (this.gameOver && !obj.clicked) td.classList.add('ts-z-19');
+                    if (!this.gameOver && !obj.clicked) td.classList.add('ts-z-19');
                 } else {
-                    td.classList.add('ts-z-' + d);
+                    if (!obj.clicked) td.classList.add('ts-a-' + d);
+                    if (obj.clicked) td.classList.add('ts-z-' + d);
                 }
-                if (this.flags[i][j] === true) td.classList.add('flag');
+
+                if (obj.flagged === true) td.classList.add('flag');
                 td.appendChild(span);
                 tr.appendChild(td);
             }
             table.appendChild(tr);
         }
+
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.appendChild(document.createTextNode(0));
+        tr.appendChild(td);
+        // loop the inner array
+        for (let i = 0; i < this.x; i++) {
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(i + 1));
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
     }
 
     turn(x, y) {
         if (this.gameOver !== false) return false;
         if (this.turns === 0) this.startTime = new Date();
-        if (this.flags[x][y] === true) return false;
+        if (this.savedata[x][y].flagged === true) return false;
+        if (this.savedata[x][y].clicked === true) return false;
         this.turns++;
 
         if (this.gameOver === false && x >= 0 && y >= 0 && x < this.x && y < this.y) {
-            if (this.savedata[x][y] === 9) {
-                this.savedata[x][y] = 29;
+            if (this.savedata[x][y].mine === true) {
+                this.savedata[x][y].number = 29;
+                this.savedata[x][y].clicked = true;
                 this.endGame();
-            } else if (this.savedata[x][y] === 0) {
-                this.savedata[x][y] += 10;
+            } else if (this.savedata[x][y].number === 0) {
+                this.savedata[x][y].number += 10;
+                this.savedata[x][y].clicked = true;
 
                 try {
                     if (typeof this.savedata[x - 1][y - 1] !== 'undefined')
@@ -204,7 +230,10 @@ class TwitchSweeper {
                         this.turn(x + 1, y + 1);
                 } catch (e) { }
             } else {
-                if (this.savedata[x][y] < 10) this.savedata[x][y] += 10;
+                if (this.savedata[x][y].number < 10) {
+                    this.savedata[x][y].number += 10;
+                    this.savedata[x][y].clicked = true;
+                }
             }
             this.draw();
         } else {
@@ -217,7 +246,7 @@ class TwitchSweeper {
                 // If is array, continue repeat loop
                 item.forEach(each);
             } else {
-                if (item <= 9) remaining++;
+                if (item.clicked === false) remaining++;
             }
         });
 
@@ -230,7 +259,7 @@ class TwitchSweeper {
     flag(x, y) {
         if (this.gameOver !== false) return false;
         if (x >= 0 && y >= 0 && x < this.x && y < this.y) {
-            this.flags[x][y] = !this.flags[x][y];
+            this.savedata[x][y].flagged = !this.savedata[x][y].flagged;
             this.draw();
         }
     }
@@ -263,11 +292,8 @@ class TwitchSweeper {
 
         for (let i = 0; i < this.x; i++) {
             for (let j = 0; j < this.y; j++) {
-                if (this.savedata[i][j] === 9 && this.flags[i][j] === false)
-                    this.savedata[i][j] = 19;
-
-                if (this.savedata[i][j] !== 9 && this.flags[i][j] === true)
-                    this.flags[i][j] = false;
+                if (!this.savedata[i][j].mine && this.savedata[i][j].flagged)
+                    this.savedata[i][j].flagged = false;
             }
         }
 
@@ -284,12 +310,12 @@ class TwitchSweeper {
 
     getMines() {
         let flagged = 0;
-        this.flags.forEach(function each(item) {
+        this.savedata.forEach(function each(item) {
             if (Array.isArray(item)) {
                 // If is array, continue repeat loop
                 item.forEach(each);
             } else {
-                if (item === true) flagged++;
+                if (item.flagged === true) flagged++;
             }
         });
 

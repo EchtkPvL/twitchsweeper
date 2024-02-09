@@ -5,7 +5,8 @@
     src: local('Seven Segment'), url('Seven_Segment.woff') format('woff');
 }
 
-#score, #time {
+#score,
+#time {
     width: 40px;
     font-family: 'seven segment';
     font-size: 25px;
@@ -45,7 +46,8 @@ td span {
 }
 
 td:first-child,
-tr:first-child>td {
+tr:first-child>td,
+tr:last-child>td {
     border: 0 !important;
     width: 12px !important;
     min-width: 12px !important;
@@ -53,10 +55,13 @@ tr:first-child>td {
     text-align: center;
 }
 
-[class^="ts-a-"]>span,
 [class^="ts-z-10"]>span,
 [class^="ts-z-19"]>span,
 [class^="ts-z-29"]>span {
+    color: rgba(0, 0, 0, 0.0) !important;
+}
+
+.covered>span {
     color: rgba(0, 0, 0, 0.0) !important;
 }
 
@@ -79,7 +84,7 @@ tr:first-child>td {
     background-color: rgba(232, 8, 8, 0.459) !important;
 }
 
-[class^="ts-"]>span {
+td>span {
     font-size: 150%;
 }
 
