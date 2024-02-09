@@ -1,4 +1,7 @@
 // https://archive.org/details/win3_stock
+// https://tcrf.net/Minesweeper_(Windows,_1990)
+// https://github.com/Yinghao-Li/Minesweeper-for-LLM
+
 class TwitchSweeper {
     constructor(diff, tblId) {
         this.difficulty = parseInt(diff);
