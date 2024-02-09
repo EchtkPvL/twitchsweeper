@@ -155,9 +155,9 @@ class TwitchSweeper {
                 if (obj.mine) {
                     if (obj.clicked) td.classList.add('ts-z-29');
                     if (this.gameOver && !obj.clicked) td.classList.add('ts-z-19');
-                    if (!this.gameOver && !obj.clicked) td.classList.add('ts-z-19');
+                    if (!this.gameOver && !obj.clicked) td.classList.add('covered');
                 } else {
-                    if (!obj.clicked) td.classList.add('ts-a-' + d);
+                    if (!obj.clicked) td.classList.add('covered');
                     if (obj.clicked) td.classList.add('ts-z-' + d);
                 }
 
