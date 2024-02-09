@@ -111,10 +111,9 @@ class TwitchSweeper {
         }
 
         for (let i = 0; i < this.y; i++) {
-            let tmp = i.toString().padStart(2, '0') + "|";
+            let tmp = String.fromCharCode(i + 'A'.charCodeAt(0)) + " |";
             for (let j = 0; j < this.x; j++) {
-                //tmp += this.savedata[j][i].number + "|";
-                tmp += (this.savedata[j][i].mine ? 'X' : '-') + "|";
+                tmp += (this.savedata[j][i].mine ? '.' : this.savedata[j][i].number) + "|";
             }
             console.log(tmp);
         }
