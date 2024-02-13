@@ -1,13 +1,14 @@
 const urlParams = new URLSearchParams(window.location.search);
 const channel = urlParams.get('channel') ?? 'echtkpvlbot';
 const mode = urlParams.get('mode') ?? 0;
+const timeout = urlParams.get('timeout') ?? 1999;
 
 var game = new TwitchSweeper(mode, 'game');
 
 setInterval(gameMeta, 100);
 function gameMeta() {
     var time = game.getTime();
-    if (time > 1999) window.location.reload();
+    if (time > timeout) window.location.reload();
     var el = document.getElementById('time');
     el.innerHTML = time;
 
