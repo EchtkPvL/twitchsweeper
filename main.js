@@ -115,7 +115,8 @@ class TwitchSweeper {
             for (let j = 0; j < this.x; j++) {
                 tmp += (this.savedata[j][i].mine ?
                     'x' : this.savedata[j][i].number == 0 ?
-                        '-' : this.savedata[j][i].number) + "|";
+                        '-' : this.savedata[j][i].number
+                ) + "|";
             }
             console.log(tmp);
         }
