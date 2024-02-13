@@ -65,13 +65,10 @@ class TwitchSweeper {
             clicked: false
         };
 
-        for (let i = 0; i < this.x; i++) {
-            this.savedata[i] = [];
-            // loop the inner array
-            for (let j = 0; j < this.y; j++) {
-                this.savedata[i][j] = JSON.parse(JSON.stringify(template));
-            }
-        }
+        for (let i = 0; i < this.x; i++) this.savedata[i] = []
+        for (let i = 0; i < this.x; i++)
+            for (let j = 0; j < this.y; j++)
+                this.savedata[i][j] = JSON.parse(JSON.stringify(template))
 
         for (let m = 1; m <= this.mines; m++) {
             let rand_width = Math.floor(Math.random() * this.x);
