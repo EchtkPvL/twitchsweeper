@@ -46,6 +46,7 @@ ws.onmessage = function (messageEvent) {
     }
 
     if (parsed.command === "PRIVMSG") {
+        document.getElementById('wip').innerHTML = parsed.username;
         console.log("MSG: " + msg + " from " + parsed.username);
         game.parseIRC(msg);
     } else if (parsed.command === "PING") {
