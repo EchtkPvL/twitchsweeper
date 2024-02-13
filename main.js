@@ -5,16 +5,14 @@ const timeout = urlParams.get('timeout') ?? 1999;
 
 var game = new TwitchSweeper(mode, 'game');
 
-setInterval(gameMeta, 100);
+setInterval(gameMeta, 123);
 function gameMeta() {
     var time = game.getTime();
     if (time > timeout) window.location.reload();
-    var el = document.getElementById('time');
-    el.innerHTML = time;
+    document.getElementById('time').innerHTML = time;
 
     var mines = game.getMines();
-    var el = document.getElementById('score');
-    el.innerHTML = mines;
+    document.getElementById('score').innerHTML = mines;
 
     var state = game.getState();
     var el = document.getElementById('action');
@@ -25,8 +23,7 @@ function gameMeta() {
 
     var state = game.getGameOver();
     if (state !== false) state = '"!new" to restart';
-    var el = document.getElementById('status');
-    el.innerHTML = state;
+    document.getElementById('status').innerHTML = state;
 }
 
 const ws = new WebSocket("wss://irc-ws.chat.twitch.tv:443");
@@ -38,23 +35,25 @@ ws.onopen = function (openEvent) {
 };
 ws.onmessage = function (messageEvent) {
     var parsed = parseMessage(messageEvent.data);
-    var msg = parsed.message;
-    console.log(parsed);
     if (parsed === null) {
         console.log(messageEvent);
         return;
     }
+    console.log(parsed);
+    var msg = parsed.message;
 
     if (parsed.command === "PRIVMSG") {
         document.getElementById('wip').innerHTML = parsed.username;
         console.log("MSG: " + msg + " from " + parsed.username);
         game.parseIRC(msg);
     } else if (parsed.command === "PING") {
+        document.getElementById('wip').innerHTML = "ping<->pong";
         ws.send("PONG :" + msg);
     }
 };
 ws.onclose = function (closeEvent) {
-    console.log("WebSocket wurde geschlossen");
+    document.getElementsByClassName("title-bar-text")[0].innerHTML = "WebSocket closed o.O";
+    console.log(closeEvent);
 };
 
 // Credits to: https://stackoverflow.com/questions/50383115
