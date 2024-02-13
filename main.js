@@ -24,6 +24,12 @@ function gameMeta() {
     var state = game.getGameOver();
     if (state !== false) state = '"!new" to restart';
     document.getElementById('status').innerHTML = state;
+
+    if (state !== false && mode == 0) {
+        document.getElementById('info').innerHTML = "Gameover";
+    } else {
+        document.getElementById('info').innerHTML = "Yx in chat to play (e.g. B3)";
+    }
 }
 
 const ws = new WebSocket("wss://irc-ws.chat.twitch.tv:443");
